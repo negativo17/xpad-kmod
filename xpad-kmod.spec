@@ -1,5 +1,3 @@
-%global debug_package %{nil}
-
 # buildforkernels macro hint: when you build a new version or a new release
 # that contains bugfixes or other improvements then you must disable the
 # "buildforkernels newest" macro for just that build; immediately after
@@ -7,9 +5,23 @@
 # a new akmod package will only get build when a new one is actually needed
 %define buildforkernels akmod
 
+%global debug_package %{nil}
+
+%global zipmodules 1
+
+%define __spec_install_post \
+  %{__arch_install_post}\
+  %{__os_install_post}\
+  %{__mod_compress_install_post}
+
+%define __mod_compress_install_post \
+  if [ "%{zipmodules}" -eq "1" ]; then \
+    find %{buildroot}/usr/lib/modules/ -type f -name '*.ko' | xargs xz; \
+  fi
+
 Name:       xpad-kmod
 Version:    4.1
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    X-Box gamepad driver (Valve)
 License:    GPLv2+
 URL:        http://store.steampowered.com/steamos/
@@ -57,6 +69,10 @@ done
 %{?akmod_install}
 
 %changelog
+* Sat May 28 2016 Simone Caronni <negativo17@gmail.com> - 4.1-3
+- Make sure installed modules are compressed with xz (default since May 2014 in
+  Fedora...). Thanks leigh123linux.
+
 * Sun Jan 31 2016 Simone Caronni <negativo17@gmail.com> - 4.1-2
 - Update to latest commits.
 
