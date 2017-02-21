@@ -21,7 +21,7 @@
 
 Name:       xpad-kmod
 Version:    4.1
-Release:    4%{?dist}
+Release:    5%{?dist}
 Summary:    X-Box gamepad driver (Valve)
 License:    GPLv2+
 URL:        http://store.steampowered.com/steamos/
@@ -29,7 +29,7 @@ URL:        http://store.steampowered.com/steamos/
 # Source file:
 # https://github.com/ValveSoftware/steamos_kernel/blob/brewmaster-4.1/drivers/input/joystick/xpad.c
 
-Source0:    https://raw.githubusercontent.com/ValveSoftware/steamos_kernel/376295e81ec217038c5467424ab317906ea3b3e3/drivers/input/joystick/xpad.c
+Source0:    https://raw.githubusercontent.com/ValveSoftware/steamos_kernel/1b3922d7f6bfbb323ca54bb585b96cda9a7d8439/drivers/input/joystick/xpad.c
 Source1:    Makefile
 Source11:   xpad-kmodtool-excludekernel-filterfile
 
@@ -69,6 +69,9 @@ done
 %{?akmod_install}
 
 %changelog
+* Tue Feb 21 2017 Simone Caronni <negativo17@gmail.com> - 4.1-5
+- Update to latest commits.
+
 * Mon Sep 12 2016 Simone Caronni <negativo17@gmail.com> - 4.1-4
 - Update to latest commits.
 
