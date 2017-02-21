@@ -4,21 +4,21 @@
 # If kversion isn't defined on the rpmbuild line, define it here. For Fedora,
 # kversion needs always to be defined as there is no kABI support.
 
-# RHEL 7.2
+# RHEL 7.3
 %if 0%{?rhel} == 7
-%{!?kversion: %global kversion 3.10.0-327.el7.%{_target_cpu}}
+%{!?kversion: %global kversion 3.10.0-514.el7.%{_target_cpu}}
 %endif
 
 Name:           %{kmod_name}-kmod
 Version:        0.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        X-Box gamepad driver (Valve)
 License:        GPLv2+
 URL:            http://store.steampowered.com/steamos/
 
 # Source file:
 # https://github.com/ValveSoftware/steamos_kernel/blob/brewmaster-4.1/drivers/input/joystick/xpad.c
-Source0:        https://raw.githubusercontent.com/ValveSoftware/steamos_kernel/8e9ecc9caee1ae1d18c2cc4572729ef355091b6e/drivers/input/joystick/xpad.c
+Source0:        https://raw.githubusercontent.com/ValveSoftware/steamos_kernel/1b3922d7f6bfbb323ca54bb585b96cda9a7d8439/drivers/input/joystick/xpad.c
 Source1:        Makefile
 Source10:       kmodtool-%{kmod_name}-el6.sh
 
@@ -62,6 +62,9 @@ install kmod-%{kmod_name}.conf %{buildroot}%{_sysconfdir}/depmod.d/
 rm -f %{buildroot}/lib/modules/%{kversion}/modules.*
 
 %changelog
+* Tue Feb 21 2017 Simone Caronni <negativo17@gmail.com> - 0.1-6
+- Update to latest commits.
+
 * Fri Jul 31 2015 Simone Caronni <negativo17@gmail.com> - 0.1-5
 - Update to latest commits.
 
