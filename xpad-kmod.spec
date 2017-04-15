@@ -1,3 +1,7 @@
+%global commit0 5376366886251e2f8f248704adb620a4bc4c0937
+%global date 20170410
+%global shortcommit0 %%(c=%%{commit0}; echo ${c:0:7})
+
 # Define the kmod package name here.
 %global	kmod_name xpad
 
@@ -10,15 +14,15 @@
 %endif
 
 Name:           %{kmod_name}-kmod
-Version:        0.1
-Release:        6%{?dist}
-Summary:        X-Box gamepad driver (Valve)
+Version:        4.11
+Release:        1%{?snapshot:.%{snapshot}}%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Summary:        X-Box gamepad driver
 License:        GPLv2+
-URL:            http://store.steampowered.com/steamos/
+URL:            http://www.kernel.org/
 
 # Source file:
-# https://github.com/ValveSoftware/steamos_kernel/blob/brewmaster-4.1/drivers/input/joystick/xpad.c
-Source0:        https://raw.githubusercontent.com/ValveSoftware/steamos_kernel/1b3922d7f6bfbb323ca54bb585b96cda9a7d8439/drivers/input/joystick/xpad.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/drivers/input/joystick/xpad.c
+Source0:        https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/drivers/input/joystick/xpad.c?id=%{commit0}#/xpad.c
 Source1:        Makefile
 Source10:       kmodtool-%{kmod_name}-el6.sh
 
@@ -38,9 +42,9 @@ BuildRequires:  kmod
 %global	debug_package %{nil}
 
 %description
-X-Box gamepad driver with specific patches made by Valve for SteamOS.
-It is built to depend upon the specific ABI provided by a range of releases of
-the same variant of the Linux kernel and not on any one specific build.
+X-Box gamepad driver from latest upstream kernel. It is built to depend upon the
+specific ABI provided by a range of releases of the same variant of the Linux
+kernel and not on any one specific build.
 
 %prep
 %setup -q -T -c -n %{kmod_name}-%{version}
@@ -62,6 +66,9 @@ install kmod-%{kmod_name}.conf %{buildroot}%{_sysconfdir}/depmod.d/
 rm -f %{buildroot}/lib/modules/%{kversion}/modules.*
 
 %changelog
+* Sat Apr 15 2017 Simone Caronni <negativo17@gmail.com> - 4.11-1.20170410git5376366
+- Update to latest snapshot from the official kernel repository.
+
 * Tue Feb 21 2017 Simone Caronni <negativo17@gmail.com> - 0.1-6
 - Update to latest commits.
 
