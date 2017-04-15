@@ -1,3 +1,7 @@
+%global commit0 5376366886251e2f8f248704adb620a4bc4c0937
+%global date 20170410
+%global shortcommit0 %%(c=%%{commit0}; echo ${c:0:7})
+
 # buildforkernels macro hint: when you build a new version or a new release
 # that contains bugfixes or other improvements then you must disable the
 # "buildforkernels newest" macro for just that build; immediately after
@@ -20,16 +24,16 @@
   fi
 
 Name:       xpad-kmod
-Version:    4.1
-Release:    5%{?dist}
-Summary:    X-Box gamepad driver (Valve)
+Version:    4.11
+Release:    1%{?snapshot:.%{snapshot}}%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Summary:    X-Box gamepad driver
 License:    GPLv2+
-URL:        http://store.steampowered.com/steamos/
+URL:        http://www.kernel.org/
 
 # Source file:
-# https://github.com/ValveSoftware/steamos_kernel/blob/brewmaster-4.1/drivers/input/joystick/xpad.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/drivers/input/joystick/xpad.c
 
-Source0:    https://raw.githubusercontent.com/ValveSoftware/steamos_kernel/1b3922d7f6bfbb323ca54bb585b96cda9a7d8439/drivers/input/joystick/xpad.c
+Source0:    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/drivers/input/joystick/xpad.c?id=%{commit0}#/xpad.c
 Source1:    Makefile
 Source11:   xpad-kmodtool-excludekernel-filterfile
 
@@ -40,7 +44,7 @@ BuildRequires:  %{_bindir}/kmodtool
 %{expand:%(kmodtool --target %{_target_cpu} --repo rpmfusion --kmodname %{name} --filterfile %{SOURCE11} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null) }
 
 %description
-X-Box gamepad driver with specific patches made by Valve for SteamOS.
+X-Box gamepad driver from latest upstream kernel.
 
 %prep
 # error out if there was something wrong with kmodtool
@@ -69,6 +73,9 @@ done
 %{?akmod_install}
 
 %changelog
+* Sat Apr 15 2017 Simone Caronni <negativo17@gmail.com> - 4.11-1.20170410git5376366
+- Update to latest snapshot from the official kernel repository.
+
 * Tue Feb 21 2017 Simone Caronni <negativo17@gmail.com> - 4.1-5
 - Update to latest commits.
 
